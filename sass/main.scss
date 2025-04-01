@@ -1,0 +1,144 @@
+// colors
+$top-color: #fbbb35;
+$right-color: #f59121;
+$left-color: #ee6429;
+$darkgray-color: #a5a9ab;
+
+// sizes
+$cube-height: 130px;
+$cube-width: 150px;
+
+// mixin
+@mixin center{
+  display: flex;
+  justify-content: center;
+}
+@mixin reset(){
+  *{
+      &,
+      &::before,
+      &::after {
+        box-sizing: border-box;
+        display: block;
+      }
+    }
+  position: relative;
+  z-index: 1;
+}
+ @mixin breakpoint($point) {
+  @if $point == tablet {
+     @media (max-width: 768px) and (min-width: 481px) { @content ; }
+  }
+  @else if $point == mobile {
+     @media (max-width: 480px)  { @content ; }
+  }
+}
+@mixin top($height,$width,$top,$left,$translate1,$translate2){
+  height: $height;
+  width: $width;
+  position: absolute;
+  left: $left;
+  top: $top;
+  background: $top-color;
+  -webkit-transform: rotateX(60deg) rotateZ(45deg) translate($translate1,$translate2);
+  transform: rotateX(60deg) rotateZ(45deg)translate($translate1,$translate2);
+
+  @include breakpoint(mobile){
+     height: $height/3 !important;
+     width: $width/3 !important;
+  }
+}
+@mixin left($height,$width,$translate1,$translate2){
+  height: $height;
+  width: $width;
+  content: '';
+  position: absolute;
+  background: $left-color;
+  -webkit-transform: skewY(45deg) skewX(-45deg) translate($translate1,$translate2);
+  transform: skewY(45deg) skewX(-45deg) translate($translate1,$translate2);
+
+  @include breakpoint(mobile){
+     height: $height/3 !important;
+     width: $width/3 !important;
+  }
+}
+@mixin right($height,$width,$left,$translate1,$translate2){
+  height: $height;
+  width: $width;
+  content: '';
+  position: absolute;
+  left: $left;
+  background: $right-color;
+  -webkit-transform: skewY(45deg) translate($translate1,$translate2);
+  transform: skewY(45deg) translate($translate1,$translate2);
+
+  @include breakpoint(mobile){
+     height: $height/3 !important;
+     width: $width/3 !important;
+  }
+}
+
+body {
+  @include center;
+  padding-top: 5%;
+  margin-left: -3%;
+
+  @include breakpoint(mobile)
+  {
+     padding-top: 5%;
+     margin-left: -5%;
+  }
+
+}
+
+.logo{
+  @include reset;
+
+  .cube1 {
+    @include top($cube-height,400px,0,0, 0px, 0px);
+
+    &:before {
+      @include left(400px,$cube-width,3%,-49%);
+    }
+
+    &:after {
+      @include right($cube-height,$cube-width,70%,80%,-34%);
+    }
+  }
+
+  .cube2 {
+    @include top($cube-height,$cube-height, 0, 0, -31%, 25%);
+
+    &:before {
+      @include left($cube-height,$cube-width + 550,59%,269%);
+    }
+
+    &:after {
+      @include right($cube-height,$cube-width + 551, 0, 18.3%, 170%);
+    }
+  }
+
+  .cube3 {
+    @include top($cube-height + 140,$cube-height,0,0, -108%, 48%);
+
+    &:before {
+      @include left($cube-height,$cube-width,187%,165%);
+    }
+
+    &:after {
+      @include right($cube-height + 172,$cube-width, 0, 86.5%, -28%);
+    }
+  }
+
+  .cube4 {
+    @include top($cube-height,$cube-width,0,0,250%,250%);
+
+    &:before {
+      @include left($cube-width,$cube-width,87%,38%);
+    }
+
+    &:after {
+      @include right($cube-height + 1,$cube-width,0,99%,-56%);
+    }
+  }
+}
